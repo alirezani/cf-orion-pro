@@ -5,6 +5,9 @@
 ## قابلیت‌ها
 پشتیبانی از VLESS، VMESS، Trojan | تست اپراتورهای ایرانی | اسکن 1.5 میلیون آی‌پی کلودفلر | سیستم امتیازدهی هوشمند | Web UI حرفه‌ای | Live Logging | خروجی JSON
 
+## بعد از نصب
+مرورگر را باز کنید و به http://localhost:5000 بروید. کانفیگ خود را وارد کنید، اپراتورها را انتخاب کنید و روی شروع اسکن کلیک کنید.
+
 ## نصب روی لینوکس (خودکار)
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
