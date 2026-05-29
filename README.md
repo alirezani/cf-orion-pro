@@ -15,8 +15,7 @@ pip not found (لینوکس): sudo apt install python3-pip -y
 
 git not found (لینوکس): sudo apt install git -y
 
-پورت 5000 اشغال است: python app.py --port 5001
-
+Port 5000 is occupied: python app.py --port 5001
 ## نصب روی لینوکس (خودکار)
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
