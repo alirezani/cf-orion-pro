@@ -20,3 +20,6 @@ Port 5000 is occupied: python app.py --port 5001
 ## نصب روی لینوکس (خودکار)
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
+  --------------------------------------------------------------------------------------------------------------------------------
+
+## ویندوز (PowerShell)
