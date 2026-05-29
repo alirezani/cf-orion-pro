@@ -37,7 +37,6 @@
 ## address already in use :	python app.py --port 5001
 ## Python was not found (ویندوز)	: Python را با تیک "Add to PATH" نصب کنید
 
-## 🚀 نصب و اجرا
 
 ## 📝 نصب دستی (قدم به قدم)
 
