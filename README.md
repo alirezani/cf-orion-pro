@@ -8,3 +8,5 @@
 ## نصب روی لینوکس (خودکار)
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
+
+نصب روی لینوکس (دستی)
