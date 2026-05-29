@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CF-Orion Pro | Ultimate Cloudflare & V2Ray Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0a0a1a 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        /* نوار ناوبری */
+        .navbar {
+            background: rgba(10, 10, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+            padding: 1rem 2rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-badge {
+            background: rgba(102, 126, 234, 0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #667eea;
+        }
+
+        /* کارت اصلی */
+        .main-card {
+            background: rgba(30, 30, 50, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 2rem auto;
+            max-width: 1400px;
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-body-custom {
+            padding: 2rem;
+        }
+
+        /* بخش ورودی */
+        .config-input {
+            background: rgba(10, 10, 20, 0.8);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 1rem;
+            width: 100%;
+            color: white;
+            font-family: monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+        }
+
+        .config-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        /* چک‌باکس‌های اپراتور */
+        .operator-group {
+            background: rgba(10, 10, 20, 0.6);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .operator-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            margin: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .operator-chip.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: transparent;
+        }
+
+        .operator-chip input {
+            display: none;
+        }
+
+        /* دکمه اسکن */
+        .scan-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 40px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .scan-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .scan-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* لاگ‌ها */
+        .logs-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 0.5rem 1rem;
+            font-family: 'Monaco', monospace;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .log-entry.info { color: #64b5f6; }
+        .log-entry.success { color: #81c784; }
+        .log-entry.error { color: #e57373; }
+        .log-entry.warning { color: #ffb74d; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* جدول نتایج */
+        .results-table {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 1.5rem;
+        }
+
+        .results-table table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .results-table th {
+            background: rgba(102, 126, 234, 0.2);
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .results-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .score-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .ip-copy {
+            cursor: pointer;
+            color: #667eea;
+            font-family: monospace;
+        }
+
+        .ip-copy:hover {
+            text-decoration: underline;
+        }
+
+        /* نوار پیشرفت */
+        .progress-section {
+            margin: 1rem 0;
+        }
+
+        .progress {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            height: 8px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 20px;
+        }
+
+        /* رنگی */
+        .bg-dark-custom {
+            background: rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container-fluid">
+            <span class="navbar-brand">🔍 CF-Orion Pro</span>
+            <div class="d-flex gap-2">
+                <span class="nav-badge">🎯 V2Ray Scanner</span>
+                <span class="nav-badge">🇮🇷 Operator Testing</span>
+                <span class="nav-badge">⚡ Cloudflare Clean IP</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="main-card">
+            <div class="card-header-custom">
+                <h3 class="mb-1">🎯 اسکنر حرفه‌ای V2Ray + کلودفلر</h3>
+                <p class="text-muted mb-0">پیدا کردن بهترین آی‌پی‌ها برای کانفیگ شما | تست اختصاصی اپراتورهای ایرانی</p>
+            </div>
+            <div class="card-body-custom">
+
+                <!-- ورودی کانفیگ -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">📋 کانفیگ خود را وارد کنید (VLESS / VMESS / Trojan)</label>
+                    <textarea id="configInput" class="config-input" rows="3" 
+                        placeholder="vless://uuid@domain.com:443?type=ws&host=sni.com&path=/&security=tls"></textarea>
+                    <div class="form-text text-muted mt-2">✅ پشتیبانی از VLESS، VMESS و Trojan | می‌توانید لینک کانفیگ را مستقیم جایگذاری کنید</div>
+                </div>
+
+                <!-- انتخاب اپراتورها -->
+                <div class="operator-group">
+                    <label class="fw-bold mb-2">📡 اپراتورهای مورد نظر برای تست:</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <div class="operator-chip selected" data-op="mci">
+                            <input type="checkbox" value="mci" checked hidden> 📱 همراه اول
+                        </div>
+                        <div class="operator-chip selected" data-op="irancel">
+                            <input type="checkbox" value="irancel" checked hidden> 📶 ایرانسل
+                        </div>
+                        <div class="operator-chip selected" data-op="adsl">
+                            <input type="checkbox" value="adsl" checked hidden> 💻 ADSL
+                        </div>
+                        <div class="operator-chip" data-op="rightel">
+                            <input type="checkbox" value="rightel" hidden> 📡 رایتل
+                        </div>
+                        <div class="operator-chip" data-op="shuttle">
+                            <input type="checkbox" value="shuttle" hidden> 🚀 شاتل
+                        </div>
+                    </div>
+                </div>
+
+                <!-- تنظیمات اسکن -->
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">⚡ حالت اسکن</label>
+                        <select id="scanMode" class="form-select bg-dark-custom text-white border-secondary">
+                            <option value="quick">⚡ سریع (Quick) - حدود 2 دقیقه</option>
+                            <option value="normal" selected="selected">🔄 معمولی (Normal) - حدود 10 دقیقه</option>
+                            <option value="thorough">🔬 عمیق (Thorough) - حدود 30 دقیقه</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">🎯 محدوده آی‌پی</label>
+                        <select id="ipMode" class="form-select bg-dark-custom text-white border-secondary">
+                            <option value="quick">⚡ سریع (حدود 4000 آی‌پی)</option>
+                            <option value="normal" selected="selected">🔄 معمولی (حدود 12000 آی‌پی)</option>
+                            <option value="full">🔬 کامل (1.5 میلیون آی‌پی)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">📊 حداقل امتیاز</label>
+                        <select id="minScore" class="form-select bg-dark-custom text-white border-secondary">
+                            <option value="0">همه</option>
+                            <option value="50">بالای 50</option>
+                            <option value="70" selected="selected">بالای 70</option>
+                            <option value="85">بالای 85</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- دکمه اسکن -->
+                <div class="mt-4">
+                    <button id="scanBtn" class="scan-btn">
+                        🚀 شروع اسکن حرفه‌ای
+                    </button>
+                </div>
+
+                <!-- نوار پیشرفت -->
+                <div id="progressSection" class="progress-section" style="display: none;">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span id="stageTitle">آماده‌سازی...</span>
+                        <span id="stagePercent">0%</span>
+                    </div>
+                    <div class="progress">
+                        <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- لاگ زنده -->
+                <div class="logs-container" id="logsContainer">
+                    <div class="log-entry info">✅ آماده اسکن. کانفیگ خود را وارد کنید و روی دکمه اسکن کلیک کنید.</div>
+                </div>
+
+                <!-- نتایج -->
+                <div id="resultsContainer" style="display: none;">
+                    <div class="results-table">
+                        <table class="table text-white">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>آی‌پی</th>
+                                    <th>پینگ (ms)</th>
+                                    <th>سرعت (Mbps)</th>
+                                    <th>امتیاز</th>
+                                    <th>اپراتورها</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-between">
+                        <button id="exportBtn" class="btn btn-outline-light">📥 خروجی JSON</button>
+                        <button id="copyTopIpBtn" class="btn btn-outline-success">📋 کپی بهترین آی‌پی</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let socket = null;
+        let currentScanId = null;
+        let currentResults = null;
+
+        // اتصال WebSocket
+        function connectWebSocket() {
+            socket = io();
+            
+            socket.on('connect', () => {
+                addLog('✅ متصل به سرور اسکنر', 'success');
+            });
+            
+            socket.on('scan_log', (data) => {
+                addLog(data.message, data.level);
+            });
+            
+            socket.on('scan_progress', (data) => {
+                updateProgress(data.percentage, data.stage);
+            });
+            
+            socket.on('scan_started', (data) => {
+                currentScanId = data.scan_id;
+                document.getElementById('progressSection').style.display = 'block';
+                document.getElementById('resultsContainer').style.display = 'none';
+            });
+            
+            socket.on('scan_complete', (data) => {
+                currentResults = data.results;
+                displayResults(data.results);
+                document.getElementById('progressSection').style.display = 'none';
+                document.getElementById('scanBtn').disabled = false;
+            });
+        }
+
+        function addLog(message, level = 'info') {
+            const container = document.getElementById('logsContainer');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${level}`;
+            entry.innerHTML = `<span class="text-secondary">[${new Date().toLocaleTimeString()}]</span> ${message}`;
+            container.appendChild(entry);
+            entry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            if (container.children.length > 100) {
+                container.removeChild(container.children[0]);
+            }
+        }
+
+        function updateProgress(percentage, stage) {
+            const progressBar = document.getElementById('progressBar');
+            const stageTitle = document.getElementById('stageTitle');
+            const stagePercent = document.getElementById('stagePercent');
+            
+            progressBar.style.width = `${percentage}%`;
+            stageTitle.textContent = stage;
+            stagePercent.textContent = `${Math.round(percentage)}%`;
+        }
+
+        function displayResults(results) {
+            const tbody = document.getElementById('resultsTableBody');
+            const container = document.getElementById('resultsContainer');
+            
+            if (!results.results || results.results.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">❌ هیچ آی‌پی مناسبی پیدا نشد</td></tr>';
+                container.style.display = 'block';
+                return;
+            }
+            
+            const minScore = parseInt(document.getElementById('minScore').value);
+            const filtered = results.results.filter(r => (r.score || 0) >= minScore);
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center">⚠️ هیچ آی‌پی با امتیاز بالاتر از ${minScore} پیدا نشد</td></tr>`;
+                container.style.display = 'block';
+                return;
+            }
+            
+            tbody.innerHTML = filtered.map((r, idx) => {
+                // آیکون‌های اپراتور
+                let operatorIcons = '';
+                if (r.operator_tests) {
+                    r.operator_tests.forEach(op => {
+                        if (op.connectivity) {
+                            const icons = { mci: '📱', irancel: '📶', adsl: '💻', rightel: '📡', shuttle: '🚀' };
+                            operatorIcons += `<span class="me-1" title="${op.operator_name}">${icons[op.operator] || '✅'}</span>`;
+                        }
+                    });
+                }
+                
+                return `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td><code class="ip-copy" onclick="copyToClipboard('${r.ip}')">${r.ip}</code></td>
+                        <td>${r.latency_ms || 'N/A'}</td>
+                        <td>${r.download_mbps || 'N/A'}</td>
+                        <td><span class="score-badge">${r.score || 0}</span></td>
+                        <td>${operatorIcons || '-'}</td>
+                    </tr>
+                `;
+            }).join('');
+            
+            container.style.display = 'block';
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            addLog(`📋 آی‌پی ${text} کپی شد`, 'success');
+        }
+
+        async function startScan() {
+            const config = document.getElementById('configInput').value.trim();
+            if (!config) {
+                addLog('⚠️ لطفاً کانفیگ V2Ray خود را وارد کنید', 'warning');
+                return;
+            }
+            
+            // گرفتن اپراتورهای انتخاب شده
+            const operators = [];
+            document.querySelectorAll('.operator-chip.selected input').forEach(cb => {
+                operators.push(cb.value);
+            });
+            
+            if (operators.length === 0) {
+                addLog('⚠️ حداقل یک اپراتور را انتخاب کنید', 'warning');
+                return;
+            }
+            
+            const scanMode = document.getElementById('scanMode').value;
+            const ipMode = document.getElementById('ipMode').value;
+            
+            addLog('🚀 شروع اسکن...', 'info');
+            addLog(`📋 کانفیگ: ${config.substring(0, 50)}...`, 'info');
+            addLog(`📡 اپراتورها: ${operators.join(', ')}`, 'info');
+            addLog(`⚡ حالت اسکن: ${scanMode} | محدوده آی‌پی: ${ipMode}`, 'info');
+            
+            document.getElementById('scanBtn').disabled = true;
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('progressSection').style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        config: config,
+                        scan_mode: scanMode,
+                        operators: operators,
+                        ip_mode: ipMode
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.scan_id) {
+                    socket.emit('join_scan', { scan_id: data.scan_id });
+                }
+            } catch (error) {
+                addLog(`❌ خطا: ${error.message}`, 'error');
+                document.getElementById('scanBtn').disabled = false;
+            }
+        }
+
+        function exportResults() {
+            if (!currentResults) return;
+            const dataStr = JSON.stringify(currentResults, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `cf-orion_${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            addLog('📥 خروجی JSON ذخیره شد', 'success');
+        }
+
+        function copyTopIp() {
+            if (currentResults && currentResults.results && currentResults.results.length > 0) {
+                const topIp = currentResults.results[0].ip;
+                copyToClipboard(topIp);
+            } else {
+                addLog('⚠️ نتیجه‌ای برای کپی وجود ندارد', 'warning');
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('scanBtn').addEventListener('click', startScan);
+        document.getElementById('exportBtn').addEventListener('click', exportResults);
+        document.getElementById('copyTopIpBtn').addEventListener('click', copyTopIp);
+        
+        // تاگل اپراتورها
+        document.querySelectorAll('.operator-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const checkbox = this.querySelector('input');
+                if (checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                    if (checkbox.checked) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+                }
+            });
+        });
+        
+        // اتصال WebSocket
+        connectWebSocket();
+    </script>
+</body>
+</html>

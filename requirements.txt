@@ -1,0 +1,16 @@
+# Core
+Flask==2.3.3
+flask-socketio==5.3.4
+python-socketio==5.9.0
+eventlet==0.33.3
+
+# Network
+requests==2.31.0
+dnspython==2.4.2
+ipaddress==1.0.23
+
+# Utils
+colorama==0.4.6
+
+# V2Ray parsing
+pyyaml==6.0.1
