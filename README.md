@@ -1,43 +1,47 @@
 # 🔍 CF-Orion Pro
 
-**حرفه‌ای‌ترین ابزار پیدا کردن آی‌پی تمیز کلودفلر و تست کانفیگ V2Ray**  
-**با قابلیت تست اختصاصی اپراتورهای ایرانی (همراه اول، ایرانسل، ADSL)**
+ابزار حرفه‌ای پیدا کردن آی‌پی تمیز کلودفلر و تست کانفیگ V2Ray با پشتیبانی از اپراتورهای ایرانی (همراه اول، ایرانسل، ADSL، رایتل، شاتل)
 
----
+## قابلیت‌ها
+پشتیبانی از VLESS، VMESS، Trojan | تست اپراتورهای ایرانی | اسکن 1.5 میلیون آی‌پی کلودفلر | سیستم امتیازدهی هوشمند | Web UI حرفه‌ای | Live Logging | خروجی JSON
 
-## 📋 فهرست مطالب
-
-- [ویژگی‌ها](#ویژگی‌ها)
-- [نصب روی لینوکس](#نصب-روی-لینوکس)
-  - [نصب خودکار (یک خطی)](#نصب-خودکار-یک-خطی-روی-لینوکس)
-  - [نصب دستی قدم به قدم](#نصب-دستی-قدم-به-قدم-روی-لینوکس)
-- [نصب روی ویندوز](#نصب-روی-ویندوز)
-  - [نصب خودکار](#نصب-خودکار-روی-ویندوز)
-  - [نصب دستی قدم به قدم](#نصب-دستی-قدم-به-قدم-روی-ویندوز)
-- [نحوه استفاده](#نحوه-استفاده)
-- [پشتیبانی از کانفیگ‌ها](#پشتیبانی-از-کانفیگها)
-- [سوالات متداول](#سوالات-متداول)
-
----
-
-## ✨ ویژگی‌ها
-
-| ویژگی | توضیح |
-|:---|:---|
-| 🎯 **پارسر کانفیگ V2Ray** | پشتیبانی کامل از VLESS، VMESS، Trojan |
-| 🇮🇷 **تست اختصاصی اپراتورها** | همراه اول، ایرانسل، ADSL، رایتل، شاتل |
-| ⚡ **اسکن تمیز کلودفلر** | اسکن 1.5 میلیون آی‌پی در 14 رنج |
-| 📊 **سیستم امتیازدهی هوشمند** | 35% پینگ + 50% سرعت + 15% TTFB |
-| 🌐 **Web UI حرفه‌ای** | طراحی Glassmorphism + Dark Mode |
-| 📡 **Live Logging** | نمایش لحظه‌به‌لحظه با WebSocket |
-
----
-
-## 🐧 نصب روی لینوکس
-
-### ⚡ نصب خودکار (یک خطی) - ساده‌ترین روش
-
-کافی است این دستور را در ترمینال لینوکس خود کپی و اجرا کنید:
-
+## نصب روی لینوکس (خودکار)
 ```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
+نصب روی لینوکس (دستی)
 git clone https://github.com/alirezani/cf-orion-pro.git && cd cf-orion-pro && pip3 install -r requirements.txt && python3 app.py
+نصب روی ویندوز (خودکار - PowerShell)
+iex (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.ps1" -UseBasicParsing).Content
+نصب روی ویندوز (خودکار - Git Bash)
+git clone https://github.com/alirezani/cf-orion-pro.git && cd cf-orion-pro && pip install -r requirements.txt && python app.py
+نصب روی ویندوز (دستی)
+git clone https://github.com/alirezani/cf-orion-pro.git && cd cf-orion-pro && pip install -r requirements.txt && python app.py
+بعد از نصب
+مرورگر را باز کنید و به http://localhost:5000 بروید. کانفیگ خود را وارد کنید، اپراتورها را انتخاب کنید و روی شروع اسکن کلیک کنید.
+لینک‌ها
+
+https://github.com/alirezani/cf-orion-pro
+https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh
+https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.ps1
+رفع خطا
+
+ModuleNotFoundError: pip install -r requirements.txt
+pip not found (لینوکس): sudo apt install python3-pip -y
+git not found (لینوکس): sudo apt install git -y
+پورت 5000 اشغال است: python app.py --port 5001
+نکته
+
+این ابزار فقط برای تست امنیتی و با مجوز مالک سایت قابل استفاده است.
+
+---
+
+## حالا فقط این کار رو بکن
+
+1. فایل `README.md` رو باز کن
+2. **کامل پاک کن**
+3. **فقط همین باکس بالا رو کپی کن**
+4. بچسبون
+5. ذخیره کن
+6. `git add README.md && git commit -m "final" && git push origin main`
+
+**تموم. دیگه تکرار نمیشه 🚀**
