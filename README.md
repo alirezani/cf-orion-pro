@@ -52,21 +52,21 @@
 ## 📝 نصب دستی (قدم به قدم)
 
 # مرحله 1: نصب پیش‌نیازها
-  sudo apt update
+ * sudo apt update
   
-sudo apt install git python3 python3-pip -y
+* sudo apt install git python3 python3-pip -y
 
 # مرحله 2: دانلود پروژه
-git clone https://github.com/alirezani/cf-orion-pro.git
+* git clone https://github.com/alirezani/cf-orion-pro.git
 
 # مرحله 3: وارد پوشه شوید
-cd cf-orion-pro
+* cd cf-orion-pro
 
 # مرحله 4: نصب وابستگی‌ها
-pip3 install -r requirements.txt
+* pip3 install -r requirements.txt
 
 # مرحله 5: اجرا
-python3 app.py
+* python3 app.py
 
 ### 📦 نصب خودکار (یک خطی)
 
