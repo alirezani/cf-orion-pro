@@ -1,9 +1,6 @@
-# CF-Orion Pro
+<div align="center">
 
-Professional Cloudflare & V2Ray Scanner
+# 🚀 نصب یک خطی در لینوکس
 
-## نصب
 ```bash
-pip install -r requirements.txt
-python app.py
-```
+git clone https://github.com/alirezani/cf-orion-pro.git && cd cf-orion-pro && pip install -r requirements.txt && python3 app.py
