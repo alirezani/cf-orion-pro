@@ -19,9 +19,13 @@ Port 5000 is occupied: python app.py --port 5001
 
 ## نصب دستی
 git clone https://github.com/alirezani/cf-orion-pro.git
+
 cd cf-orion-pro
+
 pip3 install -r requirements.txt
+
 python3 app.py
+
 
 ## نصب روی لینوکس (خودکار)
 ```bash
