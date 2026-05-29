@@ -31,6 +31,24 @@
 
 ## 🚀 نصب و اجرا
 
+## 📝 نصب دستی (قدم به قدم)
+<details>
+# مرحله 1: نصب پیش‌نیازها
+sudo apt update
+sudo apt install git python3 python3-pip -y
+
+# مرحله 2: دانلود پروژه
+git clone https://github.com/alirezani/cf-orion-pro.git
+
+# مرحله 3: وارد پوشه شوید
+cd cf-orion-pro
+
+# مرحله 4: نصب وابستگی‌ها
+pip3 install -r requirements.txt
+
+# مرحله 5: اجرا
+python3 app.py
+
 ### 📦 نصب خودکار (یک خطی)
 
 <details>
@@ -39,6 +57,4 @@
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
 
-</details><details> <summary>🪟 ویندوز (PowerShell)</summary>
 
-iex (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.ps1" -UseBasicParsing).Content
