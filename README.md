@@ -31,7 +31,7 @@
 
 ## 🔧 رفع خطاهای رایج
 
- ModuleNotFoundError :	pip install -r requirements.txt
+ * ModuleNotFoundError :	pip install -r requirements.txt
  pip: command not found (لینوکس)	: sudo apt install python3-pip -y
  git: command not found (لینوکس)	: sudo apt install git -y
  address already in use :	python app.py --port 5001
