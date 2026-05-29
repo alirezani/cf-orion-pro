@@ -32,9 +32,8 @@
 ## 🚀 نصب و اجرا
 
 ## 📝 نصب دستی (قدم به قدم)
-<details>
-# مرحله 1: نصب پیش‌نیازها
 
+# مرحله 1: نصب پیش‌نیازها
   sudo apt update
   
 sudo apt install git python3 python3-pip -y
