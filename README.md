@@ -1,33 +1,44 @@
+<div align="center">
+
 # 🔍 CF-Orion Pro
 
-ابزار حرفه‌ای پیدا کردن آی‌پی تمیز کلودفلر و تست کانفیگ V2Ray با پشتیبانی از اپراتورهای ایرانی (همراه اول، ایرانسل، ADSL، رایتل، شاتل)
+**ابزار حرفه‌ای پیدا کردن آی‌پی تمیز کلودفلر و تست کانفیگ V2Ray**  
+**پشتیبانی از اپراتورهای ایرانی: همراه اول | ایرانسل | ADSL | رایتل | شاتل**
 
-## قابلیت‌ها
-پشتیبانی از VLESS، VMESS، Trojan | تست اپراتورهای ایرانی | اسکن 1.5 میلیون آی‌پی کلودفلر | سیستم امتیازدهی هوشمند | Web UI حرفه‌ای | Live Logging | خروجی JSON
+---
 
-## بعد از نصب
-مرورگر را باز کنید و به http://localhost:5000 بروید. کانفیگ خود را وارد کنید، اپراتورها را انتخاب کنید و روی شروع اسکن کلیک کنید.
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/alirezani/cf-orion-pro)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/alirezani/cf-orion-pro)
+[![Python](https://img.shields.io/badge/Python-3.8+-green?style=for-the-badge&logo=python)](https://python.org)
 
-## رفع خطا
-ModuleNotFoundError: pip install -r requirements.txt
+</div>
 
-pip not found (لینوکس): sudo apt install python3-pip -y
+---
 
-git not found (لینوکس): sudo apt install git -y
+## ✨ قابلیت‌های پروژه
 
-Port 5000 is occupied: python app.py --port 5001
+| قابلیت | توضیح |
+|:---|:---|
+| 🎯 **پارسر کانفیگ V2Ray** | پشتیبانی کامل از VLESS، VMESS، Trojan |
+| 🇮🇷 **تست اپراتورهای ایرانی** | همراه اول، ایرانسل، ADSL، رایتل، شاتل |
+| ⚡ **اسکن تمیز کلودفلر** | اسکن 1.5 میلیون آی‌پی در 14 رنج |
+| 📊 **امتیازدهی هوشمند** | ترکیب پینگ + سرعت دانلود + TTFB |
+| 🌐 **Web UI حرفه‌ای** | طراحی مدرن + حالت شب |
+| 📡 **Live Logging** | نمایش لحظه‌به‌لحظه لاگ اسکن |
+| 💾 **خروجی JSON** | ذخیره خودکار نتایج |
 
-## نصب دستی
-git clone https://github.com/alirezani/cf-orion-pro.git
+---
 
-cd cf-orion-pro
+## 🚀 نصب و اجرا
 
-pip3 install -r requirements.txt
+### 📦 نصب خودکار (یک خطی)
 
-python3 app.py
+<details>
+<summary>🐧 لینوکس</summary>
 
-
-## نصب روی لینوکس (خودکار)
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
 
+</details><details> <summary>🪟 ویندوز (PowerShell)</summary>
+
+iex (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.ps1" -UseBasicParsing).Content
