@@ -1,5 +1,3 @@
-این باکس نهایی - فقط یک باکس، فقط کپی کن
-markdown
 
 # 🔍 CF-Orion Pro
 
@@ -12,7 +10,8 @@ markdown
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
 
-نصب روی لینوکس (دستی)
+
+# نصب روی لینوکس (دستی)
 bash
 
 git clone https://github.com/alirezani/cf-orion-pro.git && cd cf-orion-pro && pip3 install -r requirements.txt && python3 app.py
