@@ -66,4 +66,10 @@ python3 app.py
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/alirezani/cf-orion-pro/main/install.sh)"
 
+---
+<div align="center">
 
+⭐ اگر از این پروژه خوشتان آمد، به آن ستاره دهید ⭐
+
+ساخته شده با ❤️ برای جامعه برنامه‌نویسان ایران
+</div> ```
